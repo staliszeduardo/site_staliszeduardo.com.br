@@ -155,10 +155,11 @@ function initTypingEffect() {
 
     const originalText = subtitle.textContent;
     const typingTexts = [
-        'TI Infrastructure & Cybersecurity Specialist',
-        'Oracle Cloud Enthusiast',
-        'Automation & Security Expert',
-        'Innovation Technology Leader'
+        'TI Infraestrutura',
+        'Cybersegurança',
+        'OCI - Oracle Cloud Infrastructure',
+        'Automação',
+        'Python'
     ];
     
     let textIndex = 0;
