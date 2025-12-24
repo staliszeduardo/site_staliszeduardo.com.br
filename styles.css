@@ -516,10 +516,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .contact-info h3 {
@@ -744,4 +745,102 @@ h1, h2, h3, h4, h5, h6 {
 .scroll-animate.animate {
     opacity: 1;
     transform: translateY(0);
+}
+.certifications {
+  padding: 60px 20px;
+  background-color: #f8fafc;
+}
+
+.certifications h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #0f172a;
+}
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 12px;
+}
+
+/* Container */
+.carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Track vira grid por padrão */
+.carousel-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  justify-content: center;
+  transition: transform 0.4s ease;
+}
+
+/* Card */
+.cert-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.cert-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.cert-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+.cert-card p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+  color: #334155;
+}
+
+.cert-card a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cert-card a:hover {
+  text-decoration: underline;
+}
+
+/* Setas */
+.carousel-btn {
+  display: none;
+  background: #ffffff;
+  border: none;
+  font-size: 1.8rem;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+  color: #2563eb;
+}
+
+.carousel-btn:hover {
+  background: #e0f2fe;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .carousel-track {
+    grid-template-columns: 1fr;
+  }
 }

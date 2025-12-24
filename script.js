@@ -470,3 +470,47 @@ console.log(`
 Interessado em colaborar? Entre em contato!
 LinkedIn: https://www.linkedin.com/in/eduardo-stalisz-8b3065192/
 `);
+
+// CARROSSEL
+const track = document.getElementById("carouselTrack");
+const btnPrev = document.getElementById("btnPrev");
+const btnNext = document.getElementById("btnNext");
+
+const cards = track.children;
+let currentIndex = 0;
+const visibleCards = 3;
+
+function setupCarousel() {
+if (cards.length > visibleCards) {
+  // ativa modo carrossel
+  track.style.display = "flex";
+  track.style.gap = "0";
+
+  btnPrev.style.display = "block";
+  btnNext.style.display = "block";
+
+  updateCarousel();
+}
+}
+
+function updateCarousel() {
+const cardWidth = cards[0].offsetWidth;
+track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+}
+
+btnNext.onclick = () => {
+if (currentIndex < cards.length - visibleCards) {
+  currentIndex++;
+  updateCarousel();
+}
+};
+
+btnPrev.onclick = () => {
+if (currentIndex > 0) {
+  currentIndex--;
+  updateCarousel();
+}
+};
+
+window.addEventListener("resize", updateCarousel);
+setupCarousel();
