@@ -1,0 +1,8 @@
+.git
+.idea
+.DS_Store
+Thumbs.db
+*.log
+*.md
+TODO.md
+scripts

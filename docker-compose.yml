@@ -1,0 +1,21 @@
+services:
+  site:
+    build:
+      context: .
+    image: site-staliszeduardo:1.0
+    container_name: site-staliszeduardo
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:8080:80"
+    networks:
+      - site_frontend
+    cpus: "0.50"
+    mem_limit: 128m
+    mem_reservation: 32m
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  site_frontend:
+    name: site-staliszeduardo-net
+    driver: bridge
