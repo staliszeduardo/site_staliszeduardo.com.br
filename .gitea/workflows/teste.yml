@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
       - name: Verificar arquivos
         run: |
           pwd
           ls -la
+          
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+        github-server-url: https://gitlita.staliszeduardo.com.br
 
       - name: Instalar Docker CLI
         run: |
