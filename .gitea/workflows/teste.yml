@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "${{ secrets.OCIR_AUTH_TOKEN }}" | \
           docker login vcp.ocir.io \
-            -u "${{ secrets.OCIR_USERNAME }}" \
+            -u "${{ secrets.OCIR_NAMESPACE }}/${{ secrets.OCIR_USERNAME }}"
             --password-stdin
 
       - name: Definir versão
