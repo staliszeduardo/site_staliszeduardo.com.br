@@ -1,4 +1,4 @@
-name: Build Docker
+name: Build e Push OCIR
 
 on:
   push:
@@ -10,36 +10,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verificar arquivos
-        run: |
-          pwd
-          ls -la
-
       - name: Checkout do código
         uses: actions/checkout@v4
-        with:
-        github-server-url: https://gitlita.staliszeduardo.com.br
 
       - name: Instalar Docker CLI
         run: |
           apt-get update
           apt-get install -y docker.io
 
-      - name: Validar Docker
+      - name: Login no OCIR
         run: |
-          docker version
+          echo "${{ secrets.OCIR_AUTH_TOKEN }}" | \
+          docker login vcp.ocir.io \
+            -u "${{ secrets.OCIR_USERNAME }}" \
+            --password-stdin
+
+      - name: Definir versão
+        run: |
+          echo "IMAGE_TAG=$(echo '${{ gitea.sha }}' | cut -c1-8)" >> "$GITHUB_ENV"
 
       - name: Build da imagem
         run: |
           docker build \
-            -t site-staliszeduardo:${{ gitea.sha }} \
+            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }} \
+            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:latest \
             .
 
-      - name: Validar imagem criada
+      - name: Push da imagem versionada
         run: |
-          docker image inspect \
-            site-staliszeduardo:${{ gitea.sha }}
+          docker push \
+            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }}
 
-      - name: Exibir imagens
+      - name: Push da imagem latest
         run: |
-          docker images site-staliszeduardo
+          docker push \
+            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:latest
+
+      - name: Resumo
+        run: |
+          echo "Imagem publicada:"
+          echo "vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }}"
