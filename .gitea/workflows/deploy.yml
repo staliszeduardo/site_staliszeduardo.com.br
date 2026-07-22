@@ -50,3 +50,31 @@ jobs:
         run: |
           echo "Imagem publicada:"
           echo "vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }}"
+
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "${{ secrets.OCI_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      - name: Adicionar hosts conhecidos
+        run: |
+          ssh-keyscan -H "${{ secrets.OCI_APP_01_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -H "${{ secrets.OCI_APP_02_HOST }}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Testar SSH OCI-01
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_01_HOST }}" \
+            "echo 'Conexão OCI-01 OK'; hostname; whoami"
+
+      - name: Testar SSH OCI-02
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_02_HOST }}" \
+            "echo 'Conexão OCI-02 OK'; hostname; whoami"
