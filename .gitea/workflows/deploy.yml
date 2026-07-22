@@ -61,9 +61,19 @@ jobs:
 
       - name: Adicionar hosts conhecidos
         run: |
-          ssh-keyscan -H "${{ secrets.OCI_APP_01_HOST }}" >> ~/.ssh/known_hosts
-          ssh-keyscan -H "${{ secrets.OCI_APP_02_HOST }}" >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+      
+          ssh-keyscan -T 10 -H "${{ secrets.OCI_APP_01_HOST }}" >> ~/.ssh/known_hosts || true
+          ssh-keyscan -T 10 -H "${{ secrets.OCI_APP_02_HOST }}" >> ~/.ssh/known_hosts || true
+      
           chmod 600 ~/.ssh/known_hosts
+      
+          echo "Hosts adicionados:"
+          wc -l ~/.ssh/known_hosts
+
+      - name: Validar known_hosts
+        run: |
+          test -s ~/.ssh/known_hosts
 
       - name: Testar SSH OCI-01
         run: |
