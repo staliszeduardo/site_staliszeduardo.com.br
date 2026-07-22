@@ -98,26 +98,23 @@ jobs:
 
       - name: Health Check OCI-01
         run: |
-          echo "Validando OCI-01..."
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_01_HOST }}" \
+            '
+            for i in $(seq 1 10); do
+              if curl --connect-timeout 2 --max-time 5 -fsS http://127.0.0.1:8080/ > /dev/null; then
+                echo "OCI-01 saudável ✅"
+                exit 0
+              fi
       
-          for i in $(seq 1 10); do
-            if curl \
-              --connect-timeout 2 \
-              --max-time 5 \
-              -fsS \
-              "http://${{ secrets.OCI_APP_01_HOST }}:8080/" \
-              > /dev/null; then
+              echo "Tentativa $i/10 falhou."
+              sleep 3
+            done
       
-              echo "OCI-01 saudável ✅"
-              exit 0
-            fi
-      
-            echo "Tentativa $i/10 falhou."
-            sleep 3
-          done
-      
-          echo "OCI-01 não respondeu ao health check ❌"
-          exit 1
+            echo "OCI-01 não respondeu ao health check ❌"
+            exit 1
+            '
 
       - name: Deploy OCI-02
         run: |
@@ -128,23 +125,20 @@ jobs:
 
       - name: Health Check OCI-02
         run: |
-          echo "Validando OCI-02..."
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_02_HOST }}" \
+            '
+            for i in $(seq 1 10); do
+              if curl --connect-timeout 2 --max-time 5 -fsS http://127.0.0.1:8080/ > /dev/null; then
+                echo "OCI-02 saudável ✅"
+                exit 0
+              fi
       
-          for i in $(seq 1 10); do
-            if curl \
-              --connect-timeout 2 \
-              --max-time 5 \
-              -fsS \
-              "http://${{ secrets.OCI_APP_02_HOST }}:8080/" \
-              > /dev/null; then
+              echo "Tentativa $i/10 falhou."
+              sleep 3
+            done
       
-              echo "OCI-02 saudável ✅"
-              exit 0
-            fi
-      
-            echo "Tentativa $i/10 falhou."
-            sleep 3
-          done
-      
-          echo "OCI-02 não respondeu ao health check ❌"
-          exit 1
+            echo "OCI-02 não respondeu ao health check ❌"
+            exit 1
+            '
