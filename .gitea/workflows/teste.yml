@@ -18,3 +18,18 @@ jobs:
       - name: Validar Docker
         run: |
           docker version
+
+      - name: Build da imagem
+        run: |
+          docker build \
+            -t site-staliszeduardo:${{ gitea.sha }} \
+            .
+
+      - name: Validar imagem criada
+        run: |
+          docker image inspect \
+            site-staliszeduardo:${{ gitea.sha }}
+
+      - name: Exibir imagens
+        run: |
+          docker images site-staliszeduardo
