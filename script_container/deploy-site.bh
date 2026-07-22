@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+TAG="${1:?Informe a tag da imagem}"
+APP_DIR="/opt/apps/site-staliszeduardo"
+
+cd "${APP_DIR}"
+
+export IMAGE_TAG="${TAG}"
+
+echo "Iniciando deploy da versão ${TAG}"
+
+docker compose pull
+
+docker rm -f site-staliszeduardo 2>/dev/null || true
+
+docker compose up -d
+
+sleep 3
+
+if ! docker ps \
+  --filter "name=site-staliszeduardo" \
+  --filter "status=running" \
+  --format '{{.Names}}' \
+  | grep -qx "site-staliszeduardo"; then
+
+  echo "ERRO: Container não está em execução."
+  exit 1
+fi
+
+echo "Versão em execução:"
+docker inspect \
+  --format='{{.Config.Image}}' \
+  site-staliszeduardo
+
+echo "Deploy concluído."

@@ -96,9 +96,45 @@ jobs:
             "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_01_HOST }}" \
             "sudo /usr/local/bin/deploy-site '${{ env.IMAGE_TAG }}'"
 
+      - name: Health Check OCI-01
+        run: |
+          echo "Aguardando aplicação subir..."
+          sleep 5
+
+          for i in $(seq 1 10); do
+            if curl -fsS "http://${{ secrets.OCI_APP_01_HOST }}:8080/" > /dev/null; then
+              echo "OCI-01 saudável ✅"
+              exit 0
+            fi
+
+            echo "Tentativa $i/10 falhou. Tentando novamente..."
+            sleep 5
+          done
+
+          echo "OCI-01 não respondeu ao health check"
+          exit 1
+
       - name: Deploy OCI-02
         run: |
           ssh \
             -i ~/.ssh/id_ed25519 \
             "${{ secrets.OCI_DEPLOY_USER }}@${{ secrets.OCI_APP_02_HOST }}" \
             "sudo /usr/local/bin/deploy-site '${{ env.IMAGE_TAG }}'"
+
+      - name: Health Check OCI-02
+        run: |
+          echo "Aguardando aplicação subir..."
+          sleep 5
+
+          for i in $(seq 1 10); do
+            if curl -fsS "http://${{ secrets.OCI_APP_02_HOST }}:8080/" > /dev/null; then
+              echo "OCI-02 saudável ✅"
+              exit 0
+            fi
+
+            echo "Tentativa $i/10 falhou. Tentando novamente..."
+            sleep 5
+          done
+
+          echo "OCI-02 não respondeu ao health check"
+          exit 1
