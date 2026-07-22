@@ -1,0 +1,28 @@
+name: Teste Gitea Actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Exibir mensagem
+        run: |
+          echo "================================="
+          echo "Gitea Actions funcionando!"
+          echo "Runner executou o workflow."
+          echo "================================="
+
+      - name: Informações do sistema
+        run: |
+          uname -a
+          whoami
+          pwd
+
+      - name: Data da execução
+        run: |
+          date
