@@ -1,4 +1,4 @@
-name: Teste Gitea Actions
+name: Build Docker
 
 on:
   push:
@@ -6,23 +6,15 @@ on:
       - main
 
 jobs:
-  teste:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Exibir mensagem
+      - name: Instalar Docker CLI
         run: |
-          echo "================================="
-          echo "Gitea Actions funcionando!"
-          echo "Runner executou o workflow."
-          echo "================================="
+          apt-get update
+          apt-get install -y docker.io
 
-      - name: Informações do sistema
+      - name: Validar Docker
         run: |
-          uname -a
-          whoami
-          pwd
-
-      - name: Data da execução
-        run: |
-          date
+          docker version
