@@ -1,7 +1,6 @@
 services:
   site:
     image: vcp.ocir.io/ax6skxff4k6c/site-staliszeduardo.com.br:${IMAGE_TAG}
-
     container_name: site-staliszeduardo
     restart: unless-stopped
 
@@ -20,5 +19,5 @@ services:
 
 networks:
   site_frontend:
+    external: true
     name: site-staliszeduardo-net
-    driver: bridge
