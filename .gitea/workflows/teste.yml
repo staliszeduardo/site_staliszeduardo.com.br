@@ -32,19 +32,19 @@ jobs:
       - name: Build da imagem
         run: |
           docker build \
-            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }} \
-            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:latest \
+            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo.com.br:${{ env.IMAGE_TAG }} \
+            -t vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo.com.br:latest \
             .
 
       - name: Push da imagem versionada
         run: |
           docker push \
-            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:${{ env.IMAGE_TAG }}
+            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo.com.br:${{ env.IMAGE_TAG }}
 
       - name: Push da imagem latest
         run: |
           docker push \
-            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo:latest
+            vcp.ocir.io/${{ secrets.OCIR_NAMESPACE }}/site-staliszeduardo.com.br:latest
 
       - name: Resumo
         run: |
