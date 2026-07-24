@@ -117,7 +117,7 @@ function initScrollAnimations() {
 
     // Add scroll animation class to elements
     const animateElements = document.querySelectorAll(
-        '.journey-card, .timeline-item, .skill-category, .project-card, .section-title'
+        '.journey-card, .timeline-item, .education-card, .skill-category, .project-card, .section-title'
     );
 
     animateElements.forEach(element => {
@@ -155,11 +155,11 @@ function initTypingEffect() {
 
     const originalText = subtitle.textContent;
     const typingTexts = [
-        'TI Infraestrutura',
-        'Cybersegurança',
-        'OCI - Oracle Cloud Infrastructure',
-        'Automação',
-        'Python'
+        'Cybersecurity',
+        'DevOps & Automação',
+        'Arquitetura Cloud',
+        'Oracle Cloud Infrastructure',
+        'Python & Docker'
     ];
     
     let textIndex = 0;
