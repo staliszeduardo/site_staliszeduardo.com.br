@@ -254,12 +254,22 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
+
+    const notificationContent = document.createElement('div');
+    notificationContent.className = 'notification-content';
+
+    const notificationMessage = document.createElement('span');
+    notificationMessage.className = 'notification-message';
+    notificationMessage.textContent = message;
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'notification-close';
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', 'Fechar notificação');
+    closeButton.textContent = '×';
+
+    notificationContent.append(notificationMessage, closeButton);
+    notification.appendChild(notificationContent);
     
     // Add styles
     notification.style.cssText = `
@@ -286,7 +296,6 @@ function showNotification(message, type = 'info') {
     }, 100);
     
     // Close button functionality
-    const closeButton = notification.querySelector('.notification-close');
     closeButton.addEventListener('click', () => {
         notification.style.transform = 'translateX(400px)';
         setTimeout(() => notification.remove(), 300);
